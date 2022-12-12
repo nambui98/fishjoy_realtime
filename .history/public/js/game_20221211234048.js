@@ -111,101 +111,101 @@ class Render {
 
 class Game {
 
-    constructor({ dataFish, onUpdateLocationFish }) {
-        const scene = document.querySelector('#game_box')
-        Game.dpiOptimize(scene)
-        this.render = new Render(scene)
-        this.data = { score: 0 }
-        this.dataFish = dataFish;
-        this.onUpdateLocationFish = onUpdateLocationFish;
-        this.init()
-    }
+        let dataFish;
+constructor() {
+    const scene = document.querySelector('#game_box')
+    Game.dpiOptimize(scene)
+    this.render = new Render(scene)
+    this.data = { score: 0 }
+    this.init()
+}
 
-    init() {
-        const stage = this.render.push(Assets.images.game_bg, new Stage({ game: this }))
-        console.log(this.dataFish);
-        Fish.onUpdateLocationFish = this.onUpdateLocationFish;
-        debugger
-        Fish.generator.create = Fish.generator.create.bind(this, this.render, Stage.boundary, this.dataFish, this.onUpdateLocationFish)
-        const gun = this.render.push(
-            Assets.images.cannon2,
-            new Gun({
-                ctx: this.render.ctx, x: 100, y: 0, speed: 0, level: 1,
-                game: this,
-            }), 6
-        ).attach(item => {
-            const mouseMove = []
-            {
-                const path = new Path2D()
-                path.rect(0, 0, this.render.ctx.width, this.render.ctx.height)
-                mouseMove.push({ area: path, handle: item.aim.bind(item) })
-            }
-            const mouseClick = []
-            {
-                const path = new Path2D()
-                path.rect(0, 0, this.render.ctx.width, this.render.ctx.height)
-                mouseClick.push({ area: path, handle: item.click.bind(item, this.render) })
-            }
-            item.mouse = { move: mouseMove, click: mouseClick }
-        })
+init() {
+    const stage = this.render.push(Assets.images.game_bg, new Stage({ game: this }))
+    console.log(Stage);
 
-        this.render.push(
-            Assets.images.bottom,
-            new Bar({ gun: gun, game: this }), 4
-        ).attach(item => {
-            const listeners = []
-            const button = item.gunButton
-            const relative = { x: button.pos.x + button.divide, y: this.render.ctx.height - button.data.h, spacing: 130 }
-            {
-                const path = new Path2D()
-                path.rect(relative.x, relative.y, button.data.w, button.data.h)
-                listeners.push({ area: path, handle: item.add.bind(item, true) })
-            }
-            {
-                const path = new Path2D()
-                path.rect(relative.x + relative.spacing, relative.y, button.data.w, button.data.h)
-                listeners.push({ area: path, handle: item.add.bind(item, false) })
-            }
-            item.mouse = { click: listeners }
-        })
-        for (let i = 0; i < Fish.generator.amount; i++) Fish.generator.create()
-        // this.render.push(Assets.images.web, new Web({ x: 200, y: 200, level: 1 }), 2)
-    }
+    console.log('init');
+    console.log(dataFish);
+    Fish.generator.create = Fish.generator.create.bind(this, this.render, Stage.boundary)
+    const gun = this.render.push(
+        Assets.images.cannon2,
+        new Gun({
+            ctx: this.render.ctx, x: 100, y: 0, speed: 0, level: 1,
+            game: this,
+        }), 6
+    ).attach(item => {
+        const mouseMove = []
+        {
+            const path = new Path2D()
+            path.rect(0, 0, this.render.ctx.width, this.render.ctx.height)
+            mouseMove.push({ area: path, handle: item.aim.bind(item) })
+        }
+        const mouseClick = []
+        {
+            const path = new Path2D()
+            path.rect(0, 0, this.render.ctx.width, this.render.ctx.height)
+            mouseClick.push({ area: path, handle: item.click.bind(item, this.render) })
+        }
+        item.mouse = { move: mouseMove, click: mouseClick }
+    })
 
-    play() {
-        console.log("restart");
-        this.render.restart()
-    }
+    this.render.push(
+        Assets.images.bottom,
+        new Bar({ gun: gun, game: this }), 4
+    ).attach(item => {
+        const listeners = []
+        const button = item.gunButton
+        const relative = { x: button.pos.x + button.divide, y: this.render.ctx.height - button.data.h, spacing: 130 }
+        {
+            const path = new Path2D()
+            path.rect(relative.x, relative.y, button.data.w, button.data.h)
+            listeners.push({ area: path, handle: item.add.bind(item, true) })
+        }
+        {
+            const path = new Path2D()
+            path.rect(relative.x + relative.spacing, relative.y, button.data.w, button.data.h)
+            listeners.push({ area: path, handle: item.add.bind(item, false) })
+        }
+        item.mouse = { click: listeners }
+    })
+    for (let i = 0; i < Fish.generator.amount; i++) Fish.generator.create()
+    // this.render.push(Assets.images.web, new Web({ x: 200, y: 200, level: 1 }), 2)
+}
+
+play(data) {
+    dataFish = data;
+    this.render.restart()
+}
 
     static dpiOptimize(canvas) {
-        function getPixelRatio(context) {
-            let backingStore = context.backingStorePixelRatio ||
-                context.webkitBackingStorePixelRatio ||
-                context.mozBackingStorePixelRatio ||
-                context.msBackingStorePixelRatio ||
-                context.oBackingStorePixelRatio ||
-                context.backingStorePixelRatio || 1
-            return (window.devicePixelRatio || 1) / backingStore
-        }
-        const ctx = canvas.getContext('2d'), ratio = getPixelRatio(ctx)
-        // canvas.style.width = canvas.width + 'px'
-        // canvas.style.height = canvas.height + 'px'
-        // canvas.width = canvas.width * ratio
-        // canvas.height = canvas.height * ratio
-
-        // canvas.style.width = window.innerWidth + 'px'
-        // canvas.style.height = window.innerHeight + 'px'
-
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-
-
-        // ctx.scale(1.2, 1.2)
-        // ctx.width = window.innerWidth
-        // ctx.height = window.innerHeight
-        // ctx.scale(ratio, ratio)
-        ctx.width = canvas.width, ctx.height = canvas.height
+    function getPixelRatio(context) {
+        let backingStore = context.backingStorePixelRatio ||
+            context.webkitBackingStorePixelRatio ||
+            context.mozBackingStorePixelRatio ||
+            context.msBackingStorePixelRatio ||
+            context.oBackingStorePixelRatio ||
+            context.backingStorePixelRatio || 1
+        return (window.devicePixelRatio || 1) / backingStore
     }
+    const ctx = canvas.getContext('2d'), ratio = getPixelRatio(ctx)
+    // canvas.style.width = canvas.width + 'px'
+    // canvas.style.height = canvas.height + 'px'
+    // canvas.width = canvas.width * ratio
+    // canvas.height = canvas.height * ratio
+
+    // canvas.style.width = window.innerWidth + 'px'
+    // canvas.style.height = window.innerHeight + 'px'
+
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+
+
+    // ctx.scale(1.2, 1.2)
+    // ctx.width = window.innerWidth
+    // ctx.height = window.innerHeight
+    // ctx.scale(ratio, ratio)
+    ctx.width = canvas.width, ctx.height = canvas.height
+}
 }
 
 let game

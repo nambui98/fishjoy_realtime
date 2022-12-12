@@ -5,13 +5,13 @@ var canvas = document.getElementById("game_box"),
     ctx = canvas.getContext('2d'),
     W = window.innerWidth,
     H = window.innerHeight;
-// window.onload = async function () {
-//     await Spirit.loadResource(Assets.path, Assets.images)
-//     game = new Game()
-//     game.play()
+window.onload = async function () {
+    await Spirit.loadResource(Assets.path, Assets.images)
+    game = new Game()
+    game.play()
 
 
-// }
+}
 var keys = {};
 
 window.addEventListener('keydown', function (e) {
@@ -50,8 +50,12 @@ socket.on('welcome', async function (currentUser, currentUsers) {
     console.log(currentUser);
 
     console.log("welcome");
+    socket.emit("map", {
+        data: [
 
-    // debugger
+        ]
+    });
+    debugger
     // ctx.globalCompositeOperation = "source-over";
     // // Lets reduce the opacity of the BG paint to give the final touch
     // ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
@@ -90,27 +94,10 @@ socket.on('welcome', async function (currentUser, currentUsers) {
     // ctx.arc(currentUser.x, currentUser.y, currentUser.radius, Math.PI * 2, false);
     // ctx.fill();
 });
-onUpdateLocationFish = (location) => {
-    //x, y, id
-    debugger
-    socket.emit('updateLocation', location);
-}
-socket.on("map", async (data) => {
-    console.log("map");
-    console.log(data);
-    let dataFish = data;
-    await Spirit.loadResource(Assets.path, Assets.images)
-    game = new Game({ dataFish, onUpdateLocationFish: onUpdateLocationFish })
-    game.play()
 
-
-    //   groundMap = loadedMap.ground;
-    //   decalMap = loadedMap.decal;
-});
 //other users get updated with new players when teh new player joins
 
 socket.on('currentUsers', function (currentUsers) {
-    debugger
     console.log("currentUsers ", currentUsers);
     // ctx.globalCompositeOperation = "source-over";
     // //Lets reduce the opacity of the BG paint to give the final touch

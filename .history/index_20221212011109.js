@@ -165,16 +165,13 @@ io.sockets.on("connection", function (socket) {
     socket.broadcast.emit("playerLeft", players);
   });
   socket.on("updateLocation", function (location) {
-    // console.log(location);
+    console.log(location);
     let index = dataFish.findIndex(f => f.id === location.id);
     if (index >= 0) {
-      dataFish[index].x = location.x;
-      dataFish[index].y = location.y;
+      let fish = dataFish[index];
+      fish.x = location.x;
+      fish.y = location.y;
     }
-    // socket.emit("map", {
-    //   data: dataFish,
-    // });
-
     // dataFish = 
   });
   socket.on("pressed", function (key) {

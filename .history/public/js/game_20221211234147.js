@@ -111,22 +111,23 @@ class Render {
 
 class Game {
 
-    constructor({ dataFish, onUpdateLocationFish }) {
+    constructor() {
         const scene = document.querySelector('#game_box')
         Game.dpiOptimize(scene)
         this.render = new Render(scene)
         this.data = { score: 0 }
-        this.dataFish = dataFish;
-        this.onUpdateLocationFish = onUpdateLocationFish;
+
+        this.dataFish = [];
         this.init()
     }
 
     init() {
         const stage = this.render.push(Assets.images.game_bg, new Stage({ game: this }))
+        console.log(Stage);
+
+        console.log('init');
         console.log(this.dataFish);
-        Fish.onUpdateLocationFish = this.onUpdateLocationFish;
-        debugger
-        Fish.generator.create = Fish.generator.create.bind(this, this.render, Stage.boundary, this.dataFish, this.onUpdateLocationFish)
+        Fish.generator.create = Fish.generator.create.bind(this, this.render, Stage.boundary)
         const gun = this.render.push(
             Assets.images.cannon2,
             new Gun({
@@ -172,8 +173,8 @@ class Game {
         // this.render.push(Assets.images.web, new Web({ x: 200, y: 200, level: 1 }), 2)
     }
 
-    play() {
-        console.log("restart");
+    play(data) {
+        this.dataFish = data;
         this.render.restart()
     }
 

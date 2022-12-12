@@ -333,17 +333,12 @@ class Web extends Item {
 }
 
 class Fish extends Item {
-    // constructor({ onUpdateLocationFish }) {
-    //     this.onUpdateLocationFish = onUpdateLocationFish;
-    // }
-    static onUpdateLocationFish;
     static generator = {
         rand: new Rand(),
-
-        amount: 1,
+        amount: 10,
         sets: new Set(),
         delete: function (fish) { Fish.generator.sets.delete(fish) }.bind(this),
-        create: function (render, boundary, dataFish, onUpdateLocationFish) {
+        create: function (render, boundary, dataFish) {
             if (Fish.generator.sets.size == Fish.generator.amount) return
             // const rand = Fish.generator.rand,
             //     level = Math.trunc(rand.gen(1, 13))
@@ -395,14 +390,12 @@ class Fish extends Item {
             // console.log(fish);
             let listFish = dataFish.data.map(f => {
                 const props = {
-                    id: f.id,
                     x: f.x, y: f.y,
                     vx: f.vx, vy: f.vy,
                     angle: f.angle,
                     speed: 1.,//- .5,
                     level: f.level,
                     boundary: boundary,
-                    onUpdateLocationFish,
                     game: this
                 }
                 return render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
@@ -435,155 +428,145 @@ class Fish extends Item {
             // })))
             // console.log();
             // return fish
-            return listFish
-        },
-        coinBox: { x: 50, y: Stage.boundary.fy - 40 }
+            return ...listFish
+    },
+    coinBox: { x: 50, y: Stage.boundary.fy - 40 }
     }
 
     static config = {
-        1: {
-            size: { w: 55, h: 37 }, collision: { x: 0, y: -7, w: 55, h: 26 },
-            captureRate: .55, price: 1
-        },
-        2: {
-            size: { w: 78, h: 64 }, collision: { x: 0, y: -12, w: 78, h: 35 },
-            captureRate: .5, price: 2
-        },
-        3: {
-            size: { w: 72, h: 56 }, collision: { x: 0, y: -12, w: 82, h: 32 },
-            captureRate: .45, price: 5
-        },
-        4: {
-            size: { w: 77, h: 59 }, collision: { x: 0, y: -12, w: 77, h: 34 },
-            captureRate: .4, price: 10
-        },
-        5: {
-            size: { w: 107, h: 122 }, collision: { x: 4, y: - 7, w: 91, h: 72 },
-            captureRate: .35, price: 20
-        },
-        6: {
-            size: { w: 105, h: 78 }, collision: { x: 10, y: -8, w: 60, h: 62 },
-            captureRate: .45, price: 5
-        },
-        7: {
-            size: { w: 95, h: 150 }, collision: { x: 8, y: -30, w: 65, h: 68 },
-            captureRate: .45, price: 5
-        },
-        8: {
-            size: { w: 120, h: 126 }, collision: { x: 12, y: -16, w: 90, h: 68 },
-            captureRate: .45, price: 5
-        },
-        9: {
-            size: { w: 200, h: 182 }, collision: { x: 8, y: -16, w: 95, h: 130 },
-            captureRate: .35, price: 20
-        },
-        10: {
-            size: { w: 207, h: 186 }, collision: { x: -6, y: - 18, w: 140, h: 100 },
-            captureRate: .35, price: 20
-        },
-        11: {
-            size: { w: 550, h: 270 }, collision: { x: 14, y: -8, w: 440, h: 160 },
-            captureRate: 2, price: 20
-        },
-        12: {
-            size: { w: 550, h: 274 }, collision: { x: 14, y: -8, w: 440, h: 160 },
-            captureRate: 5, price: 20
-        },
-    }
+    1: {
+        size: { w: 55, h: 37 }, collision: { x: 0, y: -7, w: 55, h: 26 },
+        captureRate: .55, price: 1
+    },
+    2: {
+        size: { w: 78, h: 64 }, collision: { x: 0, y: -12, w: 78, h: 35 },
+        captureRate: .5, price: 2
+    },
+    3: {
+        size: { w: 72, h: 56 }, collision: { x: 0, y: -12, w: 82, h: 32 },
+        captureRate: .45, price: 5
+    },
+    4: {
+        size: { w: 77, h: 59 }, collision: { x: 0, y: -12, w: 77, h: 34 },
+        captureRate: .4, price: 10
+    },
+    5: {
+        size: { w: 107, h: 122 }, collision: { x: 4, y: - 7, w: 91, h: 72 },
+        captureRate: .35, price: 20
+    },
+    6: {
+        size: { w: 105, h: 78 }, collision: { x: 10, y: -8, w: 60, h: 62 },
+        captureRate: .45, price: 5
+    },
+    7: {
+        size: { w: 95, h: 150 }, collision: { x: 8, y: -30, w: 65, h: 68 },
+        captureRate: .45, price: 5
+    },
+    8: {
+        size: { w: 120, h: 126 }, collision: { x: 12, y: -16, w: 90, h: 68 },
+        captureRate: .45, price: 5
+    },
+    9: {
+        size: { w: 200, h: 182 }, collision: { x: 8, y: -16, w: 95, h: 130 },
+        captureRate: .35, price: 20
+    },
+    10: {
+        size: { w: 207, h: 186 }, collision: { x: -6, y: - 18, w: 140, h: 100 },
+        captureRate: .35, price: 20
+    },
+    11: {
+        size: { w: 550, h: 270 }, collision: { x: 14, y: -8, w: 440, h: 160 },
+        captureRate: 2, price: 20
+    },
+    12: {
+        size: { w: 550, h: 274 }, collision: { x: 14, y: -8, w: 440, h: 160 },
+        captureRate: 5, price: 20
+    },
+}
 
     get collision() {
-        const type = Fish.config[this.level],
-            size = type.size, edge = type.collision,
-            collision = new Collision({ x: this.x, y: this.y, w: size.w, h: size.h, theta: this.angle }),
-            rect = collision.shape
-        let [RX, RY] = rect.getAxis()
-        RX = RX.direction.Multiply(edge.x), RY = RY.direction.Multiply(edge.y)
-        rect.center = rect.center.Add(RX).Add(RY)
-        rect.size.x = edge.w, rect.size.y = edge.h
-        return collision
+    const type = Fish.config[this.level],
+        size = type.size, edge = type.collision,
+        collision = new Collision({ x: this.x, y: this.y, w: size.w, h: size.h, theta: this.angle }),
+        rect = collision.shape
+    let [RX, RY] = rect.getAxis()
+    RX = RX.direction.Multiply(edge.x), RY = RY.direction.Multiply(edge.y)
+    rect.center = rect.center.Add(RX).Add(RY)
+    rect.size.x = edge.w, rect.size.y = edge.h
+    return collision
+}
+
+init() {
+    this.timer = { last: null, interval: 10, index: 0 }
+    this.frame = { index: 0, max: 7 }
+    this.dying = {
+        state: false,
+        interval: 60, index: 0
     }
+}
 
-    init() {
-        this.timer = { last: null, interval: 10, index: 0 }
-        this.frame = { index: 0, max: 7 }
-        this.dying = {
-            state: false,
-            interval: 60, index: 0
-        }
+canBeCaptured(level) {
+    return Fish.config[this.level].captureRate * (1 + level * 0.05) < Fish.generator.rand.gen()
+};
+
+draw(ctx) {
+    // debugger
+    const img = Assets.images[`fish${this.level}`], type = Fish.config[this.level], size = type.size
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.rotate(this.angle)
+    ctx.drawImage(img,
+        0, 0 + size.h * this.frame.index, size.w, size.h,
+        size.w / -2, size.h / -2, size.w, size.h)
+    ctx.restore()
+    this.collision.draw(ctx)
+}
+
+deadProxy() {
+    Fish.generator.delete(this)
+}
+
+tick(render) {
+    //switch spirit frame
+    if (++this.timer.index > this.timer.interval) {
+        this.timer.index = 0
+        this.frame.index++
+        this.frame.index &= 3
+        if (this.dying.state) this.frame.index += 4
     }
-
-    canBeCaptured(level) {
-        return Fish.config[this.level].captureRate * (1 + level * 0.05) < Fish.generator.rand.gen()
-    };
-
-    draw(ctx) {
-        // debugger
-        const img = Assets.images[`fish${this.level}`], type = Fish.config[this.level], size = type.size
-        ctx.save()
-        ctx.translate(this.x, this.y)
-        ctx.rotate(this.angle)
-        ctx.drawImage(img,
-            0, 0 + size.h * this.frame.index, size.w, size.h,
-            size.w / -2, size.h / -2, size.w, size.h)
-        ctx.restore()
-        this.collision.draw(ctx)
-    }
-
-    deadProxy() {
-        Fish.generator.delete(this)
-    }
-
-    tick(render) {
-        //switch spirit frame
-        console.log("vao day fish");
-        if (++this.timer.index > this.timer.interval) {
-            this.timer.index = 0
-            this.frame.index++
-            this.frame.index &= 3
-            if (this.dying.state) this.frame.index += 4
+    if (this.dying.state) {
+        if (this.dying.index++ == this.dying.interval) {
+            this.dead = true
+            //create coin
+            render.push(Assets.images.coinAni1,
+                new Coin({
+                    x: this.x, y: this.y,
+                    sx: this.boundary.cx + 100, sy: this.boundary.fy - 50,
+                    level: Fish.config[this.level].price < 15 ? 1 : 2
+                }), 7)
+            render.push(Assets.images.coinAni1,
+                new CoinText({
+                    x: this.x, y: this.y,
+                    sx: this.x, sy: this.y - 50,
+                    num: Fish.config[this.level].price,
+                    level: 1,
+                    game: this.game
+                }), 7)
         }
-        if (this.dying.state) {
-            if (this.dying.index++ == this.dying.interval) {
-                this.dead = true
-                //create coin
-                render.push(Assets.images.coinAni1,
-                    new Coin({
-                        x: this.x, y: this.y,
-                        sx: this.boundary.cx + 100, sy: this.boundary.fy - 50,
-                        level: Fish.config[this.level].price < 15 ? 1 : 2
-                    }), 7)
-                render.push(Assets.images.coinAni1,
-                    new CoinText({
-                        x: this.x, y: this.y,
-                        sx: this.x, sy: this.y - 50,
-                        num: Fish.config[this.level].price,
-                        level: 1,
-                        game: this.game
-                    }), 7)
-            }
-            return
-        }
-        //update moving position
-        this.y += this.vy * this.speed, this.x += this.vx * this.speed
-        console.log("x ", this.x);
-        console.log("y ", this.y);
-        debugger
-        this.onUpdateLocationFish({
-            x: this.x,
-            y: this.y,
-            id: this.id
-        })
-        debugger
-        //out of boundary
-        const size = Fish.config[this.level].size,
-            corners = new Rect({ x: this.x, y: this.y, w: size.w, h: size.h, theta: this.angle }).getCorners()
-        for (const corner of corners) {
-            if (Stage.boundary.check(corner)) return
-        }
-        this.dead = true
-        //  console.log('dead')
         return
     }
+    //update moving position
+    this.y += this.vy * this.speed, this.x += this.vx * this.speed
+    //out of boundary
+    const size = Fish.config[this.level].size,
+        corners = new Rect({ x: this.x, y: this.y, w: size.w, h: size.h, theta: this.angle }).getCorners()
+    for (const corner of corners) {
+        if (Stage.boundary.check(corner)) return
+    }
+    this.dead = true
+    //  console.log('dead')
+    return
+}
 }
 
 class Coin extends Item {

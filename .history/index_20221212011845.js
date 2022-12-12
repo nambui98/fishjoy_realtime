@@ -171,6 +171,7 @@ io.sockets.on("connection", function (socket) {
       dataFish[index].x = location.x;
       dataFish[index].y = location.y;
     }
+    console.log(dataFish);
     // socket.emit("map", {
     //   data: dataFish,
     // });

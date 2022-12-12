@@ -336,7 +336,6 @@ class Fish extends Item {
     // constructor({ onUpdateLocationFish }) {
     //     this.onUpdateLocationFish = onUpdateLocationFish;
     // }
-    static onUpdateLocationFish;
     static generator = {
         rand: new Rand(),
 
@@ -344,6 +343,7 @@ class Fish extends Item {
         sets: new Set(),
         delete: function (fish) { Fish.generator.sets.delete(fish) }.bind(this),
         create: function (render, boundary, dataFish, onUpdateLocationFish) {
+            // console.log(this.onUpdateLocationFish);
             if (Fish.generator.sets.size == Fish.generator.amount) return
             // const rand = Fish.generator.rand,
             //     level = Math.trunc(rand.gen(1, 13))
@@ -395,14 +395,12 @@ class Fish extends Item {
             // console.log(fish);
             let listFish = dataFish.data.map(f => {
                 const props = {
-                    id: f.id,
                     x: f.x, y: f.y,
                     vx: f.vx, vy: f.vy,
                     angle: f.angle,
                     speed: 1.,//- .5,
                     level: f.level,
                     boundary: boundary,
-                    onUpdateLocationFish,
                     game: this
                 }
                 return render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
@@ -567,12 +565,6 @@ class Fish extends Item {
         this.y += this.vy * this.speed, this.x += this.vx * this.speed
         console.log("x ", this.x);
         console.log("y ", this.y);
-        debugger
-        this.onUpdateLocationFish({
-            x: this.x,
-            y: this.y,
-            id: this.id
-        })
         debugger
         //out of boundary
         const size = Fish.config[this.level].size,

@@ -333,109 +333,52 @@ class Web extends Item {
 }
 
 class Fish extends Item {
-    // constructor({ onUpdateLocationFish }) {
-    //     this.onUpdateLocationFish = onUpdateLocationFish;
-    // }
-    static onUpdateLocationFish;
     static generator = {
         rand: new Rand(),
-
-        amount: 1,
+        amount: 10,
         sets: new Set(),
         delete: function (fish) { Fish.generator.sets.delete(fish) }.bind(this),
-        create: function (render, boundary, dataFish, onUpdateLocationFish) {
+        create: function (render, boundary) {
             if (Fish.generator.sets.size == Fish.generator.amount) return
-            // const rand = Fish.generator.rand,
-            //     level = Math.trunc(rand.gen(1, 13))
-            //     // level = 12
-            //     , size = Fish.config[level].size
-            // let angle, x = rand.gen(boundary.cx, boundary.fx), y = rand.gen(boundary.cy, boundary.fy)
-            // x = x < boundary.fx / 2 ? boundary.cx : boundary.fx
-            // const angle_v = Math.atan2(y - boundary.fy / 2, x - boundary.fx / 2) * 180 / Math.PI
-            // angle = angle_v
-            // if (angle < 45 && angle >= -45) {  //right
-            //     angle = rand.gen(135, 225)
-            // } else if (angle < 135 && angle >= 45) {  //down
-            //     angle = rand.gen(-45, -135)
-            // } else if ((angle <= 180 && angle >= 135) || (angle >= -180 && angle < -135)) {  //left
-            //     angle = rand.gen(-45, 45)
-            // } else if (angle <= -45 && angle >= -135) {  //up
-            //     angle = rand.gen(45, 135)
-            // }
-            // angle = Rect.toRadians(angle)
-            // const corners = new Rect({ x: x, y: y, w: size.w, h: size.h, angle: Rect.toDegrees(angle) })
-            //     .getCorners()
-            //     .reduce((a, b) => {
-            //         a = a ?? b
-            //         return x == boundary.cx ? (a.x > b.x ? a : b) : (a.x < b.x ? a : b)
-            //     }, null)
-            // x += x - corners.x
-            // const vx = Math.cos(angle), vy = Math.sin(angle),
-            // props = {
-            //     x: x, y: y,
-            //     vx: vx, vy: vy,
-            //     angle: angle,
-            //     speed: 1.,//- .5,
-            //     level: level,
-            //     boundary: boundary,
-            //     game: this
-            // },
-
-            // let fishOne = dataFish.data[0];
-            // const props = {
-            //     x: fishOne.x, y: fishOne.y,
-            //     vx: fishOne.vx, vy: fishOne.vy,
-            //     angle: fishOne.angle,
-            //     speed: 1.,//- .5,
-            //     level: fishOne.level,
-            //     boundary: boundary,
-            //     game: this
-            // },
-            // fish = render.push(Assets.images[`fish${props.level}`], new Fish(props), 2);
-            // console.log(fish);
-            let listFish = dataFish.data.map(f => {
-                const props = {
-                    id: f.id,
-                    x: f.x, y: f.y,
-                    vx: f.vx, vy: f.vy,
-                    angle: f.angle,
+            const rand = Fish.generator.rand,
+                level = Math.trunc(rand.gen(1, 13))
+                // level = 12
+                , size = Fish.config[level].size
+            let angle, x = rand.gen(boundary.cx, boundary.fx), y = rand.gen(boundary.cy, boundary.fy)
+            x = x < boundary.fx / 2 ? boundary.cx : boundary.fx
+            const angle_v = Math.atan2(y - boundary.fy / 2, x - boundary.fx / 2) * 180 / Math.PI
+            angle = angle_v
+            if (angle < 45 && angle >= -45) {  //right
+                angle = rand.gen(135, 225)
+            } else if (angle < 135 && angle >= 45) {  //down
+                angle = rand.gen(-45, -135)
+            } else if ((angle <= 180 && angle >= 135) || (angle >= -180 && angle < -135)) {  //left
+                angle = rand.gen(-45, 45)
+            } else if (angle <= -45 && angle >= -135) {  //up
+                angle = rand.gen(45, 135)
+            }
+            angle = Rect.toRadians(angle)
+            const corners = new Rect({ x: x, y: y, w: size.w, h: size.h, angle: Rect.toDegrees(angle) })
+                .getCorners()
+                .reduce((a, b) => {
+                    a = a ?? b
+                    return x == boundary.cx ? (a.x > b.x ? a : b) : (a.x < b.x ? a : b)
+                }, null)
+            x += x - corners.x
+            const vx = Math.cos(angle), vy = Math.sin(angle),
+                props = {
+                    x: x, y: y,
+                    vx: vx, vy: vy,
+                    angle: angle,
                     speed: 1.,//- .5,
-                    level: f.level,
+                    level: level,
                     boundary: boundary,
-                    onUpdateLocationFish,
                     game: this
-                }
-                return render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
-            })
-            // console.log(listFish);
-            // let fishOne = dataFish.data[0];
-            // const props = {
-            //     x: fishOne.x, y: fishOne.y,
-            //     vx: fishOne.vx, vy: fishOne.vy,
-            //     angle: fishOne.angle,
-            //     speed: fishOne.speed,//- .5,
-            //     level: fishOne.level,
-            //     boundary: boundary,
-            //     game: this
-            // }
-
-            // const fish = render.push(Assets.images[`fish${fishOne.level}`], new Fish(props), 2)
-            Fish.generator.sets.add(...listFish)
-            // console.log(Fish.generator.sets);
-            // localStorage.setItem("fishes", JSON.stringify([...Fish.generator.sets].map(a => {
-            //     return {
-            //         x: a.x,
-            //         y: a.y,
-            //         vx: a.vx,
-            //         vy: a.vy,
-            //         angle: a.angle, speed: a.speed,
-            //         level: a.level
-            //     }
-
-            // })))
-            // console.log();
-            // return fish
-            return listFish
+                },
+                fish = render.push(Assets.images[`fish${level}`], new Fish(props), 2)
+            Fish.generator.sets.add(fish)
+            console.log(props);
+            return fish
         },
         coinBox: { x: 50, y: Stage.boundary.fy - 40 }
     }
@@ -513,7 +456,7 @@ class Fish extends Item {
     }
 
     canBeCaptured(level) {
-        return Fish.config[this.level].captureRate * (1 + level * 0.05) < Fish.generator.rand.gen()
+        // return Fish.config[this.level].captureRate * (1 + level * 0.05) < Fish.generator.rand.gen()
     };
 
     draw(ctx) {
@@ -535,7 +478,6 @@ class Fish extends Item {
 
     tick(render) {
         //switch spirit frame
-        console.log("vao day fish");
         if (++this.timer.index > this.timer.interval) {
             this.timer.index = 0
             this.frame.index++
@@ -565,15 +507,6 @@ class Fish extends Item {
         }
         //update moving position
         this.y += this.vy * this.speed, this.x += this.vx * this.speed
-        console.log("x ", this.x);
-        console.log("y ", this.y);
-        debugger
-        this.onUpdateLocationFish({
-            x: this.x,
-            y: this.y,
-            id: this.id
-        })
-        debugger
         //out of boundary
         const size = Fish.config[this.level].size,
             corners = new Rect({ x: this.x, y: this.y, w: size.w, h: size.h, theta: this.angle }).getCorners()
