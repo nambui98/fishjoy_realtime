@@ -177,11 +177,11 @@ io.sockets.on("connection", function (socket) {
   });
   socket.on("updateLocation", function (location) {
     // console.log(location);
-    // let index = dataFish.findIndex(f => f.id === location.id);
-    // if (index >= 0) {
-    //   dataFish[index].x = location.x;
-    //   dataFish[index].y = location.y;
-    // }
+    let index = dataFish.findIndex(f => f.id === location.id);
+    if (index >= 0) {
+      dataFish[index].x = location.x;
+      dataFish[index].y = location.y;
+    }
     // socket.emit("map", {
     //   data: dataFish,
     // });

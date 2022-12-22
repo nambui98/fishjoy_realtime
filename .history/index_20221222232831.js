@@ -49,36 +49,15 @@ io.sockets.on("connection", function (socket) {
   var currentPlayer = new newPlayer(); //new player made
   let dataFish = [
     {
-      id: 3,
-      x: -293.77688077808034,
-      y: 90.35451388888889,
-      vx: 0.9857764399592277,
-      vy: 0.16806192436513148,
-      angle: 0.16886329853979085,
-      speed: 1,
-      level: 11,
-    },
-    {
       id: 1,
-      x: 1965.3684102893926,
-      y: 170.9943115569273,
-      vx: -0.7225036368995164,
-      vy: -0.6913671200360716,
-      angle: 3.90497219563685,
+      x: -126.35776751870131,
+      y: 242.728759430727,
+      vx: 0.9306887756376916,
+      vy: -0.36581197752672684,
+      angle: -0.37450510161041906,
       speed: 1,
-      level: 3,
+      level: 9,
     },
-
-    // {
-    //   id: 1,
-    //   x: -126.35776751870131,
-    //   y: 242.728759430727,
-    //   vx: 0.9306887756376916,
-    //   vy: -0.36581197752672684,
-    //   angle: -0.37450510161041906,
-    //   speed: 1,
-    //   level: 9,
-    // },
     {
       id: 2,
       x: 1965.3684102893926,
@@ -90,15 +69,25 @@ io.sockets.on("connection", function (socket) {
       level: 3,
     },
     {
-      id: 4,
-      x: -71.70843592684079,
-      y: 174.4636874142661,
-      vx: 0.9784795393411914,
-      vy: 0.20634386613284603,
-      angle: 0.20783693168231865,
+      id: 3,
+      x: -293.77688077808034,
+      y: 90.35451388888889,
+      vx: 0.9857764399592277,
+      vy: 0.16806192436513148,
+      angle: 0.16886329853979085,
       speed: 1,
-      level: 8,
+      level: 11,
     },
+    // {
+    //   id: 4,
+    //   x: -71.70843592684079,
+    //   y: 174.4636874142661,
+    //   vx: 0.9784795393411914,
+    //   vy: 0.20634386613284603,
+    //   angle: 0.20783693168231865,
+    //   speed: 1,
+    //   level: 8,
+    // },
     {
       id: 5,
       x: -75.53948204448263,
@@ -177,11 +166,11 @@ io.sockets.on("connection", function (socket) {
   });
   socket.on("updateLocation", function (location) {
     // console.log(location);
-    // let index = dataFish.findIndex(f => f.id === location.id);
-    // if (index >= 0) {
-    //   dataFish[index].x = location.x;
-    //   dataFish[index].y = location.y;
-    // }
+    let index = dataFish.findIndex(f => f.id === location.id);
+    if (index >= 0) {
+      dataFish[index].x = location.x;
+      dataFish[index].y = location.y;
+    }
     // socket.emit("map", {
     //   data: dataFish,
     // });

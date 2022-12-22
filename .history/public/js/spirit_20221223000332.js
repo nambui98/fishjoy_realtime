@@ -408,9 +408,9 @@ class Fish extends Item {
                     onUpdateLocationFish,
                     game: this
                 }
-                let renderFish = render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
-                Fish.generator.sets.add(renderFish)
-                return renderFish;
+                let renterFish = render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
+                Fish.generator.sets.add(...listFish)
+                return renterFish;
             })
             // console.log(listFish);
             // let fishOne = dataFish.data[0];
@@ -425,7 +425,7 @@ class Fish extends Item {
             // }
 
             // const fish = render.push(Assets.images[`fish${fishOne.level}`], new Fish(props), 2)
-            // Fish.generator.sets.add(listFish)
+            // Fish.generator.sets.add(...listFish)
             // console.log(Fish.generator.sets);
             // localStorage.setItem("fishes", JSON.stringify([...Fish.generator.sets].map(a => {
             //     return {
@@ -488,7 +488,7 @@ class Fish extends Item {
         },
         11: {
             size: { w: 550, h: 270 }, collision: { x: 14, y: -8, w: 440, h: 160 },
-            captureRate: .5, price: 20
+            captureRate: 2, price: 20
         },
         12: {
             size: { w: 550, h: 274 }, collision: { x: 14, y: -8, w: 440, h: 160 },

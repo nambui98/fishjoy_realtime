@@ -58,6 +58,7 @@ io.sockets.on("connection", function (socket) {
       speed: 1,
       level: 11,
     },
+
     {
       id: 1,
       x: 1965.3684102893926,
@@ -177,11 +178,11 @@ io.sockets.on("connection", function (socket) {
   });
   socket.on("updateLocation", function (location) {
     // console.log(location);
-    // let index = dataFish.findIndex(f => f.id === location.id);
-    // if (index >= 0) {
-    //   dataFish[index].x = location.x;
-    //   dataFish[index].y = location.y;
-    // }
+    let index = dataFish.findIndex(f => f.id === location.id);
+    if (index >= 0) {
+      dataFish[index].x = location.x;
+      dataFish[index].y = location.y;
+    }
     // socket.emit("map", {
     //   data: dataFish,
     // });

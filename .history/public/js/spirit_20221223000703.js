@@ -488,7 +488,7 @@ class Fish extends Item {
         },
         11: {
             size: { w: 550, h: 270 }, collision: { x: 14, y: -8, w: 440, h: 160 },
-            captureRate: .5, price: 20
+            captureRate: 1, price: 20
         },
         12: {
             size: { w: 550, h: 274 }, collision: { x: 14, y: -8, w: 440, h: 160 },

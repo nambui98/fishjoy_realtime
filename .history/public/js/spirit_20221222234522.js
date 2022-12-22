@@ -258,7 +258,6 @@ class Bullet extends Item {
         let flag = false
         const capture = (collision, callback = null, single = false) => {
             for (const fish of Fish.generator.sets) {
-                debugger
                 if (collision.detect(fish.collision)) {
                     this.isCollided = true
                     if (!single && fish.canBeCaptured(this.level)) {
@@ -408,9 +407,7 @@ class Fish extends Item {
                     onUpdateLocationFish,
                     game: this
                 }
-                let renderFish = render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
-                Fish.generator.sets.add(renderFish)
-                return renderFish;
+                return render.push(Assets.images[`fish${f.level}`], new Fish(props), 2);
             })
             // console.log(listFish);
             // let fishOne = dataFish.data[0];
@@ -425,7 +422,7 @@ class Fish extends Item {
             // }
 
             // const fish = render.push(Assets.images[`fish${fishOne.level}`], new Fish(props), 2)
-            // Fish.generator.sets.add(listFish)
+            Fish.generator.sets.add(...listFish)
             // console.log(Fish.generator.sets);
             // localStorage.setItem("fishes", JSON.stringify([...Fish.generator.sets].map(a => {
             //     return {
@@ -488,7 +485,7 @@ class Fish extends Item {
         },
         11: {
             size: { w: 550, h: 270 }, collision: { x: 14, y: -8, w: 440, h: 160 },
-            captureRate: .5, price: 20
+            captureRate: 2, price: 20
         },
         12: {
             size: { w: 550, h: 274 }, collision: { x: 14, y: -8, w: 440, h: 160 },
@@ -572,13 +569,13 @@ class Fish extends Item {
         this.y += this.vy * this.speed, this.x += this.vx * this.speed
         console.log("x ", this.x);
         console.log("y ", this.y);
-        // debugger
+        debugger
         this.onUpdateLocationFish({
             x: this.x,
             y: this.y,
             id: this.id
         })
-        // debugger
+        debugger
         //out of boundary
         const size = Fish.config[this.level].size,
             corners = new Rect({ x: this.x, y: this.y, w: size.w, h: size.h, theta: this.angle }).getCorners()
